@@ -123,7 +123,9 @@ class Reflection
 	public static function getPropertyDeclaringClass(\ReflectionProperty $prop)
 	{
 		foreach ($prop->getDeclaringClass()->getTraits() as $trait) {
-			if ($trait->hasProperty($prop->getName())) {
+			if ($trait->hasProperty($prop->getName())
+				&& $trait->getProperty($prop->getName())->getDocComment() === $prop->getDocComment()
+			) {
 				return self::getPropertyDeclaringClass($trait->getProperty($prop->getName()));
 			}
 		}
